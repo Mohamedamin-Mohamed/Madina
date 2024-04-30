@@ -2,13 +2,28 @@ import { FaApple } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import CreditCardPay from './CreditCardPay';
 import{useSelector, useDispatch } from 'react-redux'
-import { toggleCreditCardDisplay } from './Redux/userSlice'
-import { useState } from "react";
+import { toggleCreditCardDisplay, setAmount } from './Redux/userSlice'
+import { useEffect, useState } from "react";
 
 const Navbar = ()=>{
     const userInfo = useSelector(state=>state.userInfo)
     const dispatch = useDispatch()
     const[color, setColor] = useState([false, false, false])
+   
+   useEffect(()=>{
+    const amountUserSelects = ()=>{
+        if (color[0]){
+            dispatch(setAmount(200))
+        }
+        if (color[1]){
+            dispatch(setAmount(250))
+        }
+        if (color[2]){
+            dispatch(setAmount(300))
+        }
+        }
+        amountUserSelects()
+   }, [color])
     return(
         <div className='flex justify-center items-center  h-screen'>
             <div className='flex justify-center w-[1000px]'>
