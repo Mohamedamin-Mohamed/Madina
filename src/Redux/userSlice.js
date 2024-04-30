@@ -1,7 +1,8 @@
 import {createSlice } from '@reduxjs/toolkit'
 const initialState = {
     creditCardDisplay: false,
-    amount: 0
+    amount: 0,
+    orderTotal: 0
 }
 const userSlice = createSlice({
     name: 'userInfo',
@@ -12,8 +13,11 @@ const userSlice = createSlice({
         }),
         setAmount: (state, action)=>({
             ...state, amount:action.payload
+        }),
+        setOrderTotal: (state, action)=>({
+            ...state, orderTotal:action.payload
         })
     }
 })
-export const {toggleCreditCardDisplay, setAmount} = userSlice.actions
+export const {toggleCreditCardDisplay, setAmount, setOrderTotal} = userSlice.actions
 export default userSlice.reducer
