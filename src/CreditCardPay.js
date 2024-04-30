@@ -1,27 +1,24 @@
-import { IoClose, IoHandLeft } from "react-icons/io5"
-import ClipLoader from "react-spinners/ClipLoader"
+import { IoClose } from "react-icons/io5"
 import { useState } from "react"
+import { toggleCreditCardDisplay } from "./Redux/userSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { FaCcMastercard, FaCcVisa } from "react-icons/fa"
+import { SiAmericanexpress } from "react-icons/si"
+
 const CreditCardPay = ()=>{
+    const dispatch = useDispatch()
+    const userInfo = useSelector(state=>state.userInfo)
+
     const[close, setClose] = useState(false)
     const handleClose = ()=>{
         setClose(!close)
+        dispatch(toggleCreditCardDisplay(false))
     }
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    const days = []
-    for(let i =0; i<=31; i++){
-    days.push(i)
-    }
-
-    const years = []
-    for(let i=2024; i >= 1905; i--) {
-    years.push(i)
-    }
-    const date = new Date()
-    
+     
 return(
     <div className={ close ? 'hidden': 'fixed flex justify-center inset-0 items-center text-black backdrop-blur'}>
 
-    <div className="text-black rounded-lg bg-white w-[520px] text-center border h-[820px] ease-in-out duration-500">
+    <div className="text-black rounded-lg bg-white w-[520px] text-center border h-[750px] ease-in-out duration-500">
 
     <IoClose size={30} className="ml-auto text-gray-700 hover:cursor-pointer" onClick={ handleClose }/>
        <div className="ml-5">
@@ -36,7 +33,12 @@ return(
             <input className="rounded-md border bg-gray-100 p-2 outline-none mr-4 ml-5 w-full" type="text" name="surname" placeholder="Surname"/>
         </div>
         <div className="flex ml-5 mt-4">
-            <input className="rounded-md border bg-gray-100 p-2 outline-none w-[97%]" type="number" name="cardNumber" placeholder="Card Number"/>
+            <input className="rounded-md border bg-gray-100 p-2 outline-none w-[75%]" type="number" name="cardNumber" placeholder="Card Number" />
+            <div className='flex gap-4  mx-4 '>
+            <SiAmericanexpress size={35} color="blue"/> 
+            <FaCcMastercard size={35} color="orange"/>
+            <FaCcVisa size={35} color="blue"/>
+            </div>
         </div>
        <div className="flex">
         <label className="flex ml-6 mt-5 text-xl" htmlFor="expiryDate">Expiration Date</label>
