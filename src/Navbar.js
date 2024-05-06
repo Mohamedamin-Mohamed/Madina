@@ -4,7 +4,7 @@ import CreditCardPay from './CreditCardPay'
 import { FaDollarSign } from "react-icons/fa6"
 
 import{useSelector, useDispatch } from 'react-redux'
-import { toggleCreditCardDisplay, setAmount, setOrderTotal } from './Redux/userSlice'
+import { toggleCreditCardDisplay, setAmount, setOrderTotal, setServiceFee } from './Redux/userSlice'
 import { useEffect, useState } from "react";
 
 const Navbar = ()=>{
@@ -19,15 +19,17 @@ const Navbar = ()=>{
         if (color[0]){
             dispatch(setAmount(200))
             dispatch(setOrderTotal(202.40))
+            dispatch(setServiceFee(0.01 * 200))
         }
         if (color[1]){
             dispatch(setAmount(250))
             dispatch(setOrderTotal(252.40))
-
+            dispatch(setServiceFee(0.01 * 250))
         }
         if (color[2]){
             dispatch(setAmount(300))
             dispatch(setOrderTotal(302.40))
+            dispatch(setServiceFee(0.01 * 300))
         }
         }
         amountUserSelects()
@@ -36,9 +38,13 @@ const Navbar = ()=>{
    const handleCustomAmount = (amount)=>{
    
     const parsedAmount = parseInt(amount, 10); // Parse the input value to an integer
+    const serviceFee = isNaN(parsedAmount) ? 0 : 0.01 * parsedAmount; // Calculate the service fee (1% of the input amount)
+    const orderTotal = isNaN(parsedAmount) ? 0 : parsedAmount + 2.40; // Calculate the order total (input amount + fixed fee)
+
     setCustomAmount(isNaN(parsedAmount) ? '' : parsedAmount); // Update the custom amount state
-    dispatch(setAmount(isNaN(parsedAmount) ? 0 : parsedAmount)); // Dispatch the parsed integer amount\
-    dispatch(setOrderTotal(isNaN(parsedAmount) ? 0 : parsedAmount + 2.40)); // Dispatch the parsed integer amount with additional value
+    dispatch(setAmount(isNaN(parsedAmount) ? 0 : parsedAmount)); // Dispatch the parsed integer amount
+    dispatch(setOrderTotal(orderTotal)); // Dispatch the order total
+    dispatch(setServiceFee(serviceFee)); // Dispatch the service fee, which is 1% of the input amount
    }
     return(
         <div className='flex justify-center items-center  h-screen'>

@@ -15,12 +15,15 @@ const CreditCardPay = ()=>{
         setClose(!close)
         dispatch(toggleCreditCardDisplay(false))
     }
-    
+    const handleSubmit = (e)=>{
+        const formData = e.formData()
+        console.log("Form data is ", formData)
+    }
 return(
     <div className={ close ? 'hidden': 'fixed flex justify-center inset-0 items-center text-black backdrop-blur'}>
 
     <div className="text-black rounded-lg bg-white w-[480px] text-center border h-[760px] ease-in-out duration-500">
-
+        <form onSubmit={(e)=>handleSubmit(e)}> 
     <IoClose size={30} className="ml-auto text-gray-700 hover:cursor-pointer" onClick={ handleClose }/>
        <div className="ml-5">
         <h1 className="flex font-bold text-3xl">Payment Info</h1>
@@ -30,6 +33,7 @@ return(
         
         <div className="flex ml-5 mt-2">
 
+            
             <input  className="rounded-md border bg-gray-100 p-2 outline-none w-full"type="text" name="firstName" placeholder="First Name" required/>
             <input className="rounded-md border bg-gray-100 p-2 outline-none mr-4 ml-5 w-full" type="text" name="surname" placeholder="Surname" required/>
         </div>
@@ -96,7 +100,7 @@ return(
         </div>
         <div className="flex">
         <p className="ml-6">Service Fee</p>
-        <p className="ml-auto mr-5">$2.40</p>
+        <p className="ml-auto mr-5">{userInfo.amount === 0 ? '$0': '$' + userInfo.serviceFee}</p>
         </div>
         <div className="flex mb-1">
         <p className="ml-6">Order Total</p>
@@ -107,6 +111,7 @@ return(
             <button className="bg-white text-black border text-xl px-4 rounded-md py-1 my-1 w-[200px]" onClick={ handleClose}>Cancel</button>
         <button className="bg-[#42b72a] text-white text-xl px-4 rounded-md py-1 my-1 w-[200px] " type="submit">Continue</button>
         </div>
+        </form>
     </div>
 </div>
 )
