@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { FaCcMastercard, FaCcVisa } from "react-icons/fa"
 import { SiAmericanexpress } from "react-icons/si"
 import { setOrderTotal } from "./Redux/userSlice"
-
+import StripePayment from './StripePayment'
 const CreditCardPay = ()=>{
     const dispatch = useDispatch()
     const userInfo = useSelector(state=>state.userInfo)
+    const[formSubmitted, setFormSubmitted] = useState(false)
+    const[formData, setFormData] = useState(null)
 
     const[close, setClose] = useState(false)
     const handleClose = ()=>{
@@ -16,8 +18,10 @@ const CreditCardPay = ()=>{
         dispatch(toggleCreditCardDisplay(false))
     }
     const handleSubmit = (e)=>{
-        const formData = e.formData()
-        console.log("Form data is ", formData)
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        setFormData(formData)
+        setFormSubmitted(true)
     }
 return(
     <div className={ close ? 'hidden': 'fixed flex justify-center inset-0 items-center text-black backdrop-blur'}>
@@ -113,6 +117,7 @@ return(
         </div>
         </form>
     </div>
+            {formSubmitted && <StripePayment formData={formData} />}
 </div>
 )
 }
